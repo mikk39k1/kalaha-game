@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import KalahaGame from './components/KalahaGame';
+import KalahaGame from '../components/KalahaGame';
 
 
 const Home: NextPage = () => {
