@@ -1,26 +1,7 @@
 "use client"
 
 import { useState } from 'react';
-
-// Represents a single pit in the game as a stack of seeds
-class PitStack {
-  constructor(public seeds = 0, public isKalaha = false) { }
-
-  pushSeeds(n = 1) {
-    this.seeds += n;
-  }
-
-  popAllSeeds() {
-    const seeds = this.seeds;
-    this.seeds = 0;
-    return seeds;
-  }
-
- 
-  isEmpty() {
-    return this.seeds === 0;
-  }
-}
+import { PitStack } from './PitStack';
 
 
 const initializePits = (): PitStack[] => {
