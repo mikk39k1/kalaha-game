@@ -11,7 +11,7 @@ interface CreatePitProps
   index: number;
 }
 
-export function createPit({ isKalaha, debugName, index }: CreatePitProps = {}): Pit {
+export function createPit({ isKalaha, debugName, index }: CreatePitProps): Pit {
   return {
     seeds: isKalaha ? 0 : 4,
     isKalaha: isKalaha ?? false,
