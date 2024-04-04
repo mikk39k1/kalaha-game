@@ -10,9 +10,8 @@ const KalahaGame = () => {
   
 
   const handlePitClick = (pit: Pit) => {
-    makeMove(game, pit);
-    setGame(game => ({...game, pits: [...game.pits]}));
-
+    makeMove(game, setGame, pit);
+    // setGame(game => ({...game, pits: [...game.pits]}));
   };
 
   const player1 = pits.slice(6, 7);

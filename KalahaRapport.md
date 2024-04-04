@@ -81,7 +81,6 @@ export const createPits = (): Pit[] => {
 
 <br>
 
-
 #### Creating the `UI-Array`
 ```javascript
 const player1 = pits.slice(6, 7);
