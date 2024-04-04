@@ -5,13 +5,13 @@ import { Pit } from '@/modules/pit';
 import { useState } from 'react';
 
 const KalahaGame = () => {
-  const [game, setgame] = useState(() => createGame());
+  const [game, setGame] = useState(() => createGame());
   const { pits } = game;
   
 
   const handlePitClick = (pit: Pit) => {
     makeMove(game, pit);
-    setgame(game => ({...game, pits: [...game.pits]}));
+    setGame(game => ({...game, pits: [...game.pits]}));
 
   };
 

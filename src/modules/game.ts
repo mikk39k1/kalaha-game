@@ -3,8 +3,8 @@ import { Pit, isEmpty, popAllSeeds, pushSeeds } from "./pit";
 
 
 interface Game {
-    currentPlayer: 1 | 2;
     pits: Pit[];
+    currentPlayer: 1 | 2;
 }
 
 export const createGame = (): Game => {
@@ -32,8 +32,10 @@ export const makeMove = (game: Game, pit: Pit, initialMove: boolean = true) => {
         return;
     }
 
-    const seedsToDistribute = popAllSeeds(pit);
+    const seedsToDistribute = popAllSeeds(pit);    
     distributeSeeds(game, index, seedsToDistribute);
+
+
 }
 
 const distributeSeeds = (game: Game, startIndex: number, seeds: number): void => {
@@ -52,12 +54,15 @@ const distributeSeeds = (game: Game, startIndex: number, seeds: number): void =>
         }
 
         pushSeeds(pits[index]);
-        seedsToDistribute -= 1;
+        seedsToDistribute -= 1;        
     }
 
     const endPit = pits[index];
 
 
-    if (endPit.seeds > 1 && !endPit.isKalaha) makeMove(game, endPit, false);
-    else game.currentPlayer = currentPlayer === 1 ? 2 : 1;
+    if (endPit.seeds > 1 && !endPit.isKalaha) {
+        makeMove(game, endPit, false);
+    } else {
+        game.currentPlayer = currentPlayer === 1 ? 2 : 1;
+    }
 };
