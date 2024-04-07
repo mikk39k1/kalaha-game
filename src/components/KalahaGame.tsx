@@ -1,18 +1,57 @@
 "use client"
 
-import { createGame, makeMove } from '@/modules/game';
+import { alphaBeta, cloneGame, createGame, getPossibleMoves, makeMove, simulateMove } from '@/modules/game';
 import { Pit } from '@/modules/pit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const KalahaGame = () => {
   const [game, setGame] = useState(() => createGame());
   const { pits } = game;
-  
+
 
   const handlePitClick = (pit: Pit) => {
     makeMove(game, setGame, pit);
     // setGame(game => ({...game, pits: [...game.pits]}));
   };
+
+  console.log("Currentplayer: ", game.currentPlayer)
+
+  const handleComputerMove = () => {
+    if (game.currentPlayer === 2) { //Player 2 is the computer
+      let bestScore = -Infinity;
+      let bestMove = null;
+      const possibleMoves = getPossibleMoves(game, 2);
+
+      possibleMoves.forEach((move) => {
+        const clonedGame = simulateMove(cloneGame(game), move);
+        const score = alphaBeta(clonedGame, 3, -Infinity, Infinity, false); // Adjust depth based on performance
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = move;
+        }
+      });
+
+      if (bestMove !== null) {
+        // Apply the best move
+        makeMove(game, setGame, game.pits[bestMove], true);
+      }
+    }
+  };
+
+
+  // This only runs when it's the computers turn
+  useEffect(() => {
+    // Check if it's the computer's turn
+    if (game.currentPlayer === 2) {
+    
+      // Timeout to make it possible to see the computers move
+      setTimeout(() => {
+        handleComputerMove();
+      }, 4000); 
+
+    }
+
+  }, [game]);
 
   const player1 = pits.slice(6, 7);
   const player1Pits = pits.slice(0, 6).toReversed();
@@ -20,7 +59,7 @@ const KalahaGame = () => {
   const player2 = pits.slice(13);
   const player2Pits = pits.slice(7, 13);
 
-  const uiArray =[...player1, ...player1Pits, ...player2, ...player2Pits];
+  const uiArray = [...player1, ...player1Pits, ...player2, ...player2Pits];
 
 
   return (
@@ -39,14 +78,14 @@ const KalahaGame = () => {
             const pit2Style = "w-16 h-16 md:w-24 md:h-24 bg-blue-200 border border-gray-400 rounded-full flex items-center justify-center cursor-pointer m-1";
 
             let color: string;
-            if(index === 0) color = player1Style;
-            else if(index > 0 && index < 7) color = pit1Style;
-            else if(index === 7) color = player2Style;
+            if (index === 0) color = player1Style;
+            else if (index > 0 && index < 7) color = pit1Style;
+            else if (index === 7) color = player2Style;
             else color = pit2Style;
 
 
             return (
-              <div key={index} className={color }
+              <div key={index} className={color}
                 onClick={() => handlePitClick(pit)}>
                 {pit.seeds}
               </div>

@@ -119,6 +119,58 @@ if (endPit.seeds > 1 && !endPit.isKalaha) {
 
 ---
 
+### AlphaBeta Algorithm implementation
+
+We added an AI player using the AlphaBeta Algorithm.
+
+## Strategy
+When it's the AI's turn to make a move, the first step involves cloning the current game state. This clone acts as a sandbox, allowing the AI to explore and simulate potential moves without affecting the actual game. It's a clever way to let the AI "think ahead" by testing out different strategies in a controlled environment.
+
+## Decision making
+Within this cloned state, the AI evaluates all possible legal moves, essentially asking, "What's the best move here?" This process isn't about random guesses; it's a calculated exploration of options to find the most strategically sound move. Once the AI selects the optimal move based on its calculations, we update the real game state accordingly, handing the turn back to the human player.
+
+## It's a bit stupid
+At the moment of writing this, the algortihm is not really that smart. Right now it is only taking the Player 1 and Player 2 kalaha pits into account, and growing that as big as possible. To make it smarter, it would be prudent to add some evaluation about the amount of seeds in the other pits as well, to make it take longer turns and make it harder for the human player, but that will probably be added later on.
+
+## AlphaBeta Basic concepts explained
+Alpha is the best value that the maximizer currently can guarantee at that level or above.
+Beta is the best value that the minimizer currently can guarantee at that level or above.
+
+```javascript
+export function alphaBeta(game: Game, depth: number, alpha: number, beta: number, isMaximizingPlayer: boolean) {
+    if (depth === 0) {
+      return evaluateGameState(game);
+    }
+  
+    const moves = getPossibleMoves(game, isMaximizingPlayer ? 2 : 1);
+  
+    if (isMaximizingPlayer) {
+      let maxEval = -Infinity;
+      for (const move of moves) {
+        const newGame = simulateMove(cloneGame(game), move);
+        const evaluation = alphaBeta(newGame, depth - 1, alpha, beta, false);
+        maxEval = Math.max(maxEval, evaluation);
+        alpha = Math.max(alpha, evaluation);
+        if (beta <= alpha) break; // Alpha cut-off
+      }
+      return maxEval;
+
+    } else {
+      let minEval = Infinity;
+      for (const move of moves) {
+        const newGame = simulateMove(cloneGame(game), move);
+        const evaluation = alphaBeta(newGame, depth - 1, alpha, beta, true);
+        minEval = Math.min(minEval, evaluation);
+        beta = Math.min(beta, evaluation);
+        if (beta <= alpha) break; // Beta cut-off
+      }
+      return minEval;
+    }
+  }
+  ```
+
+
+
 ### Markdown to PDF
 Relying on `pandoc` using `basictex` which can be used as the underlying LaTeX engine for generating PDFs from Markdown or other input formats.
 Installed both `pandoc` and `basictex` through `homebrew` for mac.
