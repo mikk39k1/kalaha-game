@@ -52,6 +52,7 @@ Kalaha is a traditional two-player board game that we have implemented in code. 
 <br>
 
 #### Creating the `game-array`
+
 ```javascript
 export const createPits = (): Pit[] => {
     let pits: Pit[] = [];
@@ -77,11 +78,10 @@ export const createPits = (): Pit[] => {
   };
 ```
 
-![kalaha_gamestart.png](images/kalaha_gamestart.png)
-
 <br>
 
 #### Creating the `UI-Array`
+
 ```javascript
 const player1 = pits.slice(6, 7);
   const player1Pits = pits.slice(0, 6).toReversed();
@@ -94,6 +94,12 @@ const player1 = pits.slice(6, 7);
 We are reversing the player1Pits because that is how the board is handled when going counter clockwise.
 
 <br>
+
+![kalaha_gamestart.png](images/kalaha_gamestart.png)
+
+
+<br>
+
 
 ---
 

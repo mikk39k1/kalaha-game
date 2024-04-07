@@ -78,7 +78,6 @@ const distributeSeeds = (game: Game, setGame: Dispatch<SetStateAction<Game>>, st
             makeMove(game, setGame, endPit, false); 
         }, delay); 
     } else {
-        // game.currentPlayer = currentPlayer === 1 ? 2 : 1;
         setTimeout(()=> {
             setGame(game => ({...game, currentPlayer: game.currentPlayer = currentPlayer === 1 ? 2 : 1}));
         }, delay)
